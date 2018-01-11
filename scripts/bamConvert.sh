@@ -1,4 +1,6 @@
 #!/bin/sh
+
+echo "> Loading modules..."
 ml foss/2016b
 ml Python/3.5.2
 ml GCC/5.4.0-2.26  OpenMPI/1.10.3
@@ -7,41 +9,42 @@ ml ucsc-tools/3.4.3
 ml BEDTools/2.26.0
 
 
-usage="$(basename "$0") [-h] [-b <bamfile>] [-s 'y'/'n'] [-bed] -- program to convert bam files to bw and/or bed
+usage="Usage:
+
+> $(basename "$0") [-h] [-i <bamfile>] [-s 'y'/'n'] [-b] -- program to convert bam files to bw and/or bed
 
 where:
     -h  show this help text
-    -b <bamfile>  name of bamfile to convert
+    -i <bamfile>  name of bamfile to convert
     -s <y/n>  'y' if sorting needed, 'n' if already sorted!
-    -bed  if set, bedfile will be generated
+    -b  if set, bedfile will be generated
 
     "
 
 seed=42
-while getopts ':hb:s:bed:' option; do
+while getopts ':hi:s:b' option; do
   case "$option" in
     h) echo "$usage"
        exit
        ;;
-    b)
+    i)
     if [ -r $bam ]
       then
-        echo "> Bamfile $OPTARG exists and is readable!.. proceeding..";
         bam=$OPTARG
     elif [ ! -r $bam ]
       then
-        echo "> Bamfile $OPTARG does not exists or is not readable!"
+        echo "> ERROR: Bamfile $OPTARG does not exists or is not readable!"
         exit 1
     fi
        ;;
-    s) if [ $OPTARG == 'y' || $OPTARG == 'n' ]
-      then sort=$OPTARG
-    else
+    s) if [ $OPTARG == 'y' ] || [ $OPTARG == 'n' ]
+	  then sort=$OPTARG
+       else
       echo "> ERROR: Sort argument invalid!"
       echo "$usage"
     fi
        ;;
-    bed)
+    b)
       bed='y'
       ;;
     :) printf "missing argument for -%s\n" "$OPTARG" >&2
@@ -69,31 +72,33 @@ if [ -z "$sort" ]
     exit 1
 fi
 
-echo "Sort?: $sort"
-echo '++++++++++++++++++'
-
 echo ">> The current bam will be processed:"
-echo $bam
+printf "$bam\n"
+
 # get sample name
 sample=$(basename $bam .bam)
-echo "Sample: $sample"
-
-if [ $sort = 'n' ]
+bamsort=${sample}.sorted.bam
+if [ $sort = 'y' ]
 then
-    bamsort=$bam
-else
-    bamsort=${sample}.sorted.bam
     echo ">> Sorting bam file.."
     samtools sort -o $bamsort $bam
     echo "> Bamfile sorted.."
+# if sorted not desired, then check if the bamsort file with .sorted.bam suffix exists.
+# If not, it might imply that the original bamfile is sorted and should then be used.
+else
+    if [ ! -f $bamsort ]
+    then
+	     bamsort=$bam
+    fi
 fi
+
 
 ## index bam
 if [ -f $bamsort.bai ]
 then
     echo "> Index file for $bam exists"
 else
-    echo ">> Creating index file for $bam.."
+    echo ">> Creating index file for $bamsort.."
     samtools index -b $bamsort $bamsort.bai
 fi
 
@@ -107,7 +112,7 @@ else
 fi
 
 ## Bed conversion?
-if [ $bed == 'y']
+if [ $bed == 'y' ]
   then
     # make bed from bam
     if [ -f $sample.bed ]
