@@ -1,3 +1,4 @@
+## Get raw output from NextSeq500 -> Transfer to your lunarc -> Convert to fastq
 * ### On lunarc, go to the folder in which you want to store the file!
 ```shell
 cd <path to where you want to put the run output folder> # E.g /projects/fs1/<user>/backup/projects/NextSeq500_data
