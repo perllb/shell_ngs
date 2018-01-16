@@ -1,4 +1,4 @@
-1. Get NextSeq500 run output folder from bone
+* ### Get NextSeq500 run output folder from bone
 
 ```shell
 cd <path to where you want to put the run output folder>
@@ -6,21 +6,21 @@ ml ncftp # load module for transfer
 ncftpget -R -u <username> bone.bmc.lu.se . /nextseq/<run folder (e.g. Seq001)>  
 ```
 
-1. Get SampleSheet from NGS folder in dropbox
+* ### Get SampleSheet from NGS folder in dropbox
 
 ```shell
 cd <path to the NGS folder and the Seq0XX folder that should contain the SampleSheet for the run>
 sftp -P 22220 <username>@aurora-ls2.lunarc.lu.se
  > put <samplesheet.csv>
 ```
-     1. Change name of the sample sheet to SampleSheet.csv
+      * ### Change name of the sample sheet to SampleSheet.csv
 
  ```shell
  mv <old sample sheet name> SampleSheet.csv
  ```
 
-1. Make script to send bcl2fastq to computing node
-### Bcl2fastq must be run from the project folder (e.g. Seq004/171215_NB502004_0010_AHN7KJAFXX ), and this folder must contain the SampleSheet.csv!
+* ### Make script to send bcl2fastq to computing node
+#### Bcl2fastq must be run from the project folder (e.g. Seq004/171215_NB502004_0010_AHN7KJAFXX ), and this folder must contain the SampleSheet.csv!
 ```shell
 #!/bin/bash
 
