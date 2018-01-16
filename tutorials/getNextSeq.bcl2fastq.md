@@ -1,7 +1,10 @@
+* ### Go to the folder in which you want to store the file!
+```shell
+cd <path to where you want to put the run output folder> # E.g /projects/fs1/<user>/backup/projects/NextSeq500_data
+```
 * ### Get NextSeq500 run output folder from bone
 
 ```shell
-cd <path to where you want to put the run output folder>
 ml ncftp # load module for transfer
 ncftpget -R -u <username> bone.bmc.lu.se . /nextseq/<run folder (e.g. Seq001)>  
 ```
