@@ -2,10 +2,16 @@
 
 usage="Usage:
 > $(basename "$0") -g gtfFile.gtf
--- program to convert gtf files to bed12 and further to bigbed.
+
 where:
     -g <gtffile> gtf-file to convert
     -h help
+
+-- Program to convert gtf files to bed12 and further to bigbed.
+- Creates three files in same directory as .gtf file:
+- 1. .genePred
+- 2. .bed (in bed12 format)
+- 3. .bb (bigbed format)
 
     "
 go=0
