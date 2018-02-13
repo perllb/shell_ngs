@@ -235,6 +235,14 @@ STAR --genomeDir $genomedir  \
  --outFileNamePrefix $starout/$genome.$mapping.$sample" > $scrout/Map_$mapping_$genome.$sample.sh
 
   done
+
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo "> Scripts are put in $scrout. Go there to sbatch them! "
+
+
 # If not all variables set
 else
   echo "$usage" >&2
