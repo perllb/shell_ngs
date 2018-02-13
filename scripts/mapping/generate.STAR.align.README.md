@@ -25,12 +25,15 @@ where:
   - Use gencode annotation for SJDB assistance upon mapping (-s)
   
 ```shell
-> sh generate.STAR.align.sh -p /projects/fs1/medpvb/backup/projects/monocytesinAD/ \
+> sh generate.STAR.align.sh -p /projects/fs1/medpvb/backup/projects/monoCAD/ \
 -f /projects/fs1/medpvb/backup/projects/monocytesinAD/data/fastq/ \
 -g mm10 \
 -m multi \
 -z -s  
 ```
+
+- These scripts will be put in <project folder>/scripts/Align.mm10.multi/
+- Go there to sbatch them!
 
 ### This script will generate STAR alignment scripts that 
   - Aligns to hg38 reference genome (-g mm10)
@@ -45,3 +48,5 @@ where:
 -m unique \
 
 ```
+- These scripts will be put in <project folder>/scripts/Align.hg38.unique/
+- Go there to sbatch them!
