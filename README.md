@@ -1,2 +1,2 @@
 # shellRNAseq
-Common scripts for RNAseq pipeline: from fastq to bam
+Common scripts for NGS data: from fastq to bam
